@@ -20,22 +20,30 @@ namespace ConsoleApp3
                 if(result == 1)
                 {
                     Console.WriteLine("Please enter group name");
+                       
                     string groupname = Console.ReadLine();
-                        Console.WriteLine("Please enter group max Student");
-                        string maxstudent = Console.ReadLine();
-                        int.TryParse(maxstudent, out int max);
-                        Group group = new Group(groupname,max);
-                        groups.Add(group);
+                        if (groupname == null)
+                        {
+                            Console.WriteLine("please enter group name");
+                        }
+                        else {
+                            Console.WriteLine("Please enter group max Student");
+                            string maxstudent = Console.ReadLine();
+                            int.TryParse(maxstudent, out int max);
+                            Group group = new Group(groupname, max);
+                            groups.Add(group);
+                        }
+                      
                    Console.WriteLine("Group lists");
                     foreach (Group item in groups)
                         {
-                            Console.WriteLine("Groups:" + "id: " + Group.id + " group name: " + item.Name);
+                            Console.WriteLine(item);
                      }
                         continue ;
                 }
                 else if (result == 2)
                 {
-                        if (groups.Count < 0)
+                        if (groups.Count <1)
                         {
                             Console.WriteLine("Please enter the group first");
                             continue;
@@ -47,17 +55,27 @@ namespace ConsoleApp3
                             Console.WriteLine("Please enter student surname");
                             string studsurname = Console.ReadLine();
                             Student st = new Student(studname, studsurname);
-                            Console.WriteLine("Please enter student group");
-                            string grupname = Console.ReadLine();
-                            for (int i = 0; i < groups.Count; i++)
-                            {
-                                if (grupname == groups[i].Name)
-                                {
-                                    groups[i].addStudent(st);
-                                }
-                            }
+                            Console.WriteLine("Please enter student group id");
 
-                            continue;
+                            bool groupId= int.TryParse(Console.ReadLine(), out int groupid);
+                            if (groupId == true)
+                            {
+                                for (int i = 0; i < groups.Count; i++)
+                                {
+                                    if (groups[i].id==groupid)
+                                    {
+                                        groups[i].addStudent(st);
+                                    }
+                                }
+
+                                continue;
+                            }
+                            else
+                            {
+                                Console.WriteLine("please enter correct id.");
+                                break;
+                            }
+                            
                         }
                 }
                 else if (result == 3)
@@ -74,6 +92,7 @@ namespace ConsoleApp3
                             else
                             {
                                 Console.WriteLine("Number must be less than 100 and more than 0");
+                                continue ;
                             }
                         }
                         else

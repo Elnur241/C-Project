@@ -6,38 +6,73 @@ namespace ConsoleApp3.Entity
 {
     class Group
     {
-        public static int id { get; set; }
+       
+        public  int id { get; set; }
+        private static int count = 0;
         public string Name { get; set; }
         public int Number { get; set; }
-        public int MaxStudentCount { get; set; } = 40;
+        public int MaxStudentCount { get; set; } 
         //public static List<Group> groups { get; set; }
         public List<Student> students { get; set; }
-        public Group()
+         Group()
         {
-            int count = 0;
             count++;
-            id = id + count;
+            id =count;
+            students.Count = 0;
         }
-        public Group(string name)
+        public Group(string name):this()
         {
-
+            this.Name = name;
         }
-        public Group(string name,  int maxstudent)
+        public Group(string name,  int maxstudent):this()
         {
             this.Name = name;
             this.MaxStudentCount = maxstudent;
 
         }
-        public Group(string name,int number,int maxstudent)
+        public Group(string name,int number,int maxstudent):this()
         {
             this.Name = name;
             this.Number = number;
             this.MaxStudentCount = maxstudent;
 
         }
-        public void addStudent(Student student)
+        public override string ToString()
         {
-            students.Add(student);
+            return $"Id:{id}  Name: {Name} MaxCount {MaxStudentCount}";
         }
+        //public void addtoGroup(int id)
+        //{
+        //    if (Group.id == id)
+        //    {
+
+        //    }
+        //    //students.Add(student);
+        //}
+        public override bool Equals(object obj)
+        {
+            return this.Name == ((Group)obj).Name;
+        }
+        public bool addStudent(Student student)
+        {
+            if (!students.Contains(student))
+            {
+                students.Add(student);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //public bool deleteGroup(int id)
+        //{
+        //    int count = students.Count;
+        //    for (int i = 0; i <count i++)
+        //    {
+        //        students[i].
+        //        if(students[i].)
+        //    }
+        //} 
     }
 }
