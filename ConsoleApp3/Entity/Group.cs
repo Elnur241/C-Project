@@ -22,6 +22,12 @@ namespace ConsoleApp3.Entity
         {
 
         }
+        public Group(string name,  int maxstudent)
+        {
+            this.Name = name;
+            this.MaxStudentCount = maxstudent;
+
+        }
         public Group(string name,int number,int maxstudent)
         {
             this.Name = name;
