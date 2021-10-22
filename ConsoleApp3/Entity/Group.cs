@@ -42,14 +42,7 @@ namespace ConsoleApp3.Entity
         {
             return $"Id:{id}, Name: {Name}, MaxCount:{MaxStudentCount},CurrentStudentCount:{studentCount}";
         }
-        //public void addtoGroup(int id)
-        //{
-        //    if (Group.id == id)
-        //    {
-
-        //    }
-        //    //students.Add(student);
-        //}
+       
         public override bool Equals(object obj)
         {
             return this.Name == ((Group)obj).Name;
@@ -63,17 +56,9 @@ namespace ConsoleApp3.Entity
             }
             else
             {
+                Console.WriteLine("There is user already.");
                 return false;
             }
         }
-        //public bool deleteGroup(int id)
-        //{
-        //    int count = students.Count;
-        //    for (int i = 0; i <count i++)
-        //    {
-        //        students[i].
-        //        if(students[i].)
-        //    }
-        //} 
     }
 }

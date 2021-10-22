@@ -8,16 +8,15 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-             List<Group> groups = new List<Group>();
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.WriteLine("Menu:1-Add group|2-Add student|3-Add student mark|4-View student list|5-Find student|6-Delete group|Exit-exit");
+            int countCurrCount = 0;
+            List<Group> groups = new List<Group>();
             while (true) {
-              
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.WriteLine("Menu:1-Add group|2-Add student|3-Add student mark|4-View student list|5-Find student|6-Delete group|Exit-exit");
                 Console.ResetColor();
-
                 string number = Console.ReadLine().ToLower();
              bool res= int.TryParse(number, out int result);
-             if (res==true) 
+             if (res==true && result<=6) 
              {
                 if(result == 1)
                 {
@@ -26,7 +25,7 @@ namespace ConsoleApp3
                     string groupname = Console.ReadLine();
                         if (groupname.Length == 0)
                         {
-                            Console.WriteLine(" group name must not be null");  
+                            Console.WriteLine("Group name must not be null");  
                         }
                         else {
                             Console.WriteLine("Please enter group max Student");
@@ -39,17 +38,22 @@ namespace ConsoleApp3
                             else
                             {
                                 Group group = new Group(groupname, max);
-                                groups.Add(group);
-                              
+                                if (!groups.Contains(group))
+                                {
+                                    groups.Add(group);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("There is group already with this name");
+                                }                                  
                             }    
-                        }
-                      
+                        }    
                    Console.WriteLine("Group lists");
                     foreach (Group item in groups)
                         {
+                            //Console.WriteLine("All group list");
                             Console.WriteLine(item);
                      }
-     
                 }
                 else if (result == 2)
                 {
@@ -68,118 +72,148 @@ namespace ConsoleApp3
                             Console.WriteLine("Please enter student group id");
 
                             bool groupId= int.TryParse(Console.ReadLine(), out int groupid);
+                        
                             if (groupId == true)
                             {
-                                int ise = 0;
-                                for (int i = 0; i < groups.Count; i++)
-                                {
-                                    if (groups[i].id==groupid)
+                                for (int i = 1; i <=groups.Count; i++)
+                                {                                    
+                                   if (groups[i-1].id == groupid)
                                     {
-                                     
-                                        if (groups[i].MaxStudentCount >= groups[i].studentCount) 
+                                        if (groups[i-1].MaxStudentCount > groups[i-1].studentCount)
                                         {
-                                          
-                                            groups[i].addStudent(st);
-                                            ise++;
-                                            groups[i].studentCount=ise;
-                                          
+                                            groups[i-1].addStudent(st);
+                                            groups[i-1].studentCount++;
                                         }
                                         else
                                         {
                                             Console.WriteLine("It is not possible because capasity is not enough!!!");
-                                        }  
+                                        }
                                     }
+                                    //else
+                                    //{
+                                    //    Console.WriteLine("There is not group with this id.");
+                                    //}                            
                                 }
-
                                 foreach (var item in groups)
                                 {
-                                    //int ise = 0;
-                                    //foreach (var students in item.students)
-                                    //{
-                                    //    ise++;
-                                    //    item.studentCount = ise;
-                                    //}
-
                                     Console.WriteLine(item);
                                 }
-
-
-
                                 continue;
                             }
                             else
                             {
                                 Console.WriteLine("please enter correct id.");
                                 break;
-                            }
-                            
+                            }       
                         }
                 }
                 else if (result == 3)
                     {
                         Console.WriteLine("Please enter student mark");
-                        
                         bool res1 = int.TryParse(Console.ReadLine(), out int mark);
-                        if (res1 == true)
+                        Console.WriteLine("Please enter student id");
+                        bool idmark = int.TryParse(Console.ReadLine(), out int id);
+                        if (res1 == true &&idmark==true)
                         {
-                            if(mark<=100 &&mark>0){
-                            Student.addMark(mark);
-                                Console.WriteLine(mark);
+                            if (mark <= 100 && mark > 0)
+                            {
+                                for (int i = 0; i < groups.Count; i++)
+                                {
+                                    foreach (var item in groups[i].students)
+                                    {
+                                        if (item.id == id)
+                                        {
+                                            item.addMark(mark);
+                                            Console.WriteLine(item + "," + " Mark=" + mark.ToString());
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
                                 Console.WriteLine("Number must be less than 100 and more than 0");
-                                continue ;
+                                continue;
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Please enter Number");
+                            Console.WriteLine("Id and Mark must be number");
                         }
                     }
                 else if(result==4)
                     {
-                        foreach (var item in groups)
+                        for (int i = 0; i < groups.Count; i++)
                         {
-                            Console.Write(item.students);
+                            foreach (var item in groups[i].students)
+                            {
+                                Console.WriteLine(item);
+                            }
                         }
-
                     }
                 else if (result == 5)
                     {
                         Console.WriteLine("Please enter students name or surname");
                         string findword = Console.ReadLine();
-                        foreach (var item in groups)
+                        if (groups.Count > 0)
                         {
-                            if (item.students.Contains(new Student(findword))==true)
+                            for (int i = 0; i < groups.Count; i++)
                             {
-                                Console.WriteLine("tapildi");
-                            }
-                            else
-                            {
-                                Console.WriteLine("there is not user  with this name.");
+                                foreach (var item in groups[i].students)
+                                {
+                                    if (item.Name.Contains(findword) || item.Surname.Contains(findword))
+                                    {
+                                        Console.WriteLine(item + " GroupName= " + groups[i].Name);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("There is not user with this id!!!");
+                                    }
+                                }
                             }
                         }
-
+                        else
+                        {
+                            Console.WriteLine("There is not user completely.Users count=0");
+                        }
                     }
                 else if (result == 6)
                     {
-                        Console.WriteLine("Enter the group name");
-                        string groupnamedelete = Console.ReadLine();
-                        foreach (var item in groups)
+                        Console.WriteLine("Enter the group id");
+                        bool booldelete=int.TryParse(Console.ReadLine(),out int deleteId);
+                        if (booldelete == true)
                         {
-                            if (item.Name==groupnamedelete)
+                            int count = groups.Count;
+                            if (groups.Count>0)
                             {
-                                groups.Remove(item);
+                                for (int i = 1; i <=count; i++)
+                                {
+                                    if (groups[i-1].id == deleteId)
+                                    {
+                                        groups.Remove(groups[i-1]);
+                                        Console.WriteLine("Group lists");
+                                        foreach (Group item in groups)
+                                        {
+                                            //Console.WriteLine("All group list");
+                                            Console.WriteLine(item);
+                                        }
+                                    }
+                                    //else
+                                    //{
+                                    //    Console.WriteLine("There is not group with this id.");
+                                    //}
+                                }
                             }
                             else
                             {
-                                Console.WriteLine("there is not group with this name.");
+                                Console.WriteLine("There is not group.Group count is zero");
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine("Id must be number. Enter correctly.");
+                        }
+                       
                     }
-
-
             }
            else if (number=="exit")
                 {
@@ -194,13 +228,15 @@ namespace ConsoleApp3
                         continue;
                     }
                 }
+           else if (result > 6)
+                {
+                    Console.WriteLine("Menu number must be less than 7");
+                }
             else
             {
                 Console.WriteLine("Please enter  the number!!!");
             }
-
             }
-
         }
     }
 }

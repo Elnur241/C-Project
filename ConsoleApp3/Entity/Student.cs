@@ -16,6 +16,7 @@ namespace ConsoleApp3
         
          Student()
         {
+            Marks = new List<int>();
             count++;
             id =  count;
         }
@@ -29,13 +30,14 @@ namespace ConsoleApp3
             this.Name = name;
             this.Surname = surname;
         }
-        public static void addMark( int mark)
+        public  bool addMark( int mark)
         {
             Marks.Add(mark);
+            return true;
         }
         public override string ToString()
         {
-            return base.ToString();
+            return $"id:{id},Name:{Name},Surname:{Surname}";
 
         }
         public override bool Equals(object obj)
