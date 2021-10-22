@@ -10,15 +10,16 @@ namespace ConsoleApp3.Entity
         public  int id { get; set; }
         private static int count = 0;
         public string Name { get; set; }
-        public int Number { get; set; }
+        public int studentCount { get; set; }
         public int MaxStudentCount { get; set; } 
         //public static List<Group> groups { get; set; }
         public List<Student> students { get; set; }
          Group()
         {
+            students = new List<Student>();
             count++;
             id =count;
-            students.Count = 0;
+          
         }
         public Group(string name):this()
         {
@@ -30,16 +31,16 @@ namespace ConsoleApp3.Entity
             this.MaxStudentCount = maxstudent;
 
         }
-        public Group(string name,int number,int maxstudent):this()
+        public Group(string name,int studentCount, int maxstudent):this()
         {
             this.Name = name;
-            this.Number = number;
+            this.studentCount = studentCount;
             this.MaxStudentCount = maxstudent;
 
         }
         public override string ToString()
         {
-            return $"Id:{id}  Name: {Name} MaxCount {MaxStudentCount}";
+            return $"Id:{id}, Name: {Name}, MaxCount:{MaxStudentCount},CurrentStudentCount:{studentCount}";
         }
         //public void addtoGroup(int id)
         //{

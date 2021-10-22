@@ -9,29 +9,39 @@ namespace ConsoleApp3
         static void Main(string[] args)
         {
              List<Group> groups = new List<Group>();
-             while (true) {
-             Console.BackgroundColor = ConsoleColor.Green;
-             Console.WriteLine("Menu:1-Add group|2-Add student|3-Add student mark|5View student list|5-Find student|6-Delete group|exit");
-             Console.ResetColor();
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine("Menu:1-Add group|2-Add student|3-Add student mark|4-View student list|5-Find student|6-Delete group|Exit-exit");
+            while (true) {
+              
+                Console.ResetColor();
+
                 string number = Console.ReadLine().ToLower();
              bool res= int.TryParse(number, out int result);
              if (res==true) 
              {
                 if(result == 1)
                 {
-                    Console.WriteLine("Please enter group name");
+                    Console.WriteLine("Please enter group name:");
                        
                     string groupname = Console.ReadLine();
-                        if (groupname == null)
+                        if (groupname.Length == 0)
                         {
-                            Console.WriteLine("please enter group name");
+                            Console.WriteLine(" group name must not be null");  
                         }
                         else {
                             Console.WriteLine("Please enter group max Student");
                             string maxstudent = Console.ReadLine();
-                            int.TryParse(maxstudent, out int max);
-                            Group group = new Group(groupname, max);
-                            groups.Add(group);
+                           bool maximum= int.TryParse(maxstudent, out int max);
+                            if (maximum == false)
+                            {
+                                Console.WriteLine("please enter correctly max count");   
+                            }
+                            else
+                            {
+                                Group group = new Group(groupname, max);
+                                groups.Add(group);
+                              
+                            }    
                         }
                       
                    Console.WriteLine("Group lists");
@@ -39,7 +49,7 @@ namespace ConsoleApp3
                         {
                             Console.WriteLine(item);
                      }
-                        continue ;
+     
                 }
                 else if (result == 2)
                 {
@@ -60,13 +70,40 @@ namespace ConsoleApp3
                             bool groupId= int.TryParse(Console.ReadLine(), out int groupid);
                             if (groupId == true)
                             {
+                                int ise = 0;
                                 for (int i = 0; i < groups.Count; i++)
                                 {
                                     if (groups[i].id==groupid)
                                     {
-                                        groups[i].addStudent(st);
+                                     
+                                        if (groups[i].MaxStudentCount >= groups[i].studentCount) 
+                                        {
+                                          
+                                            groups[i].addStudent(st);
+                                            ise++;
+                                            groups[i].studentCount=ise;
+                                          
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("It is not possible because capasity is not enough!!!");
+                                        }  
                                     }
                                 }
+
+                                foreach (var item in groups)
+                                {
+                                    //int ise = 0;
+                                    //foreach (var students in item.students)
+                                    //{
+                                    //    ise++;
+                                    //    item.studentCount = ise;
+                                    //}
+
+                                    Console.WriteLine(item);
+                                }
+
+
 
                                 continue;
                             }
