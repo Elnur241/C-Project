@@ -8,11 +8,10 @@ namespace ConsoleApp3.Entity
     {
        
         public  int id { get; set; }
-        private static int count = 0;
+        public static int count = 0;
         public string Name { get; set; }
         public int studentCount { get; set; }
         public int MaxStudentCount { get; set; } 
-        //public static List<Group> groups { get; set; }
         public List<Student> students { get; set; }
          Group()
         {
@@ -45,7 +44,7 @@ namespace ConsoleApp3.Entity
        
         public override bool Equals(object obj)
         {
-            return this.Name == ((Group)obj).Name;
+            return this.Name.ToLower() == ((Group)obj).Name.ToLower();
         }
         public bool addStudent(Student student)
         {

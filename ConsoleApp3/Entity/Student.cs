@@ -12,7 +12,7 @@ namespace ConsoleApp3
         public string Surname { get; set; }
         public int Age { get; set; }
         public string GroupNumber { get; set; }
-        public static List<int> Marks { get; set; }
+        public  List<int> Marks { get; set; }
         
          Student()
         {
@@ -42,7 +42,7 @@ namespace ConsoleApp3
         }
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return this.Name.ToLower() == ((Student)obj).Name.ToLower();
         }
         //public int this[int index] { get; }
     }
